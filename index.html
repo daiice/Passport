@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passport Change Tool_V5 by Daiice</title>
+    <title>Passport Change Tool_V6 by Daiice</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         * {
@@ -254,7 +254,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔐 Passport Change Tool_V5 by Daiice</h1>
+            <h1>🔐 Passport Change Tool_V6 by Daiice</h1>
             <div class="links">
                 <a href="https://infraelk.kasikornbank.com" target="_blank">PRD Site</a>
                 <a href="https://infraelkdr.kasikornbank.com" target="_blank">DR Site</a>
@@ -357,21 +357,15 @@
                 </div>
                 
                 <div class="section">
-                    <h2>7. หา docId ด้วย Request-Id</h2>
+                    <h2>7. หา docId ด้วย Request-Id หรือ Investor ID</h2>
                     <div class="input-group">
+						<label>Investor ID: <small style="color:#999;">(ใช้ค่าเดียวกับข้อ 4)</small></label>
+                        <input type="text" id="investorId2" readonly style="background:#e5e5e5;">
                         <label>Request-Id: <small style="color:#999;">(ใช้ค่าเดียวกับข้อ 5)</small></label>
                         <input type="text" id="requestId2" readonly style="background:#e5e5e5;">
                     </div>
                     <button onclick="generateQuery7()">สร้างคำสั่ง ELK (Request-Id)</button>
                     <div id="output7" class="output" style="display:none;"></div>
-                    
-                    <h3 style="margin-top: 20px; color: #666;">หรือใช้ Investor ID แทน:</h3>
-                    <div class="input-group">
-                        <label>Investor ID: <small style="color:#999;">(ใช้ค่าเดียวกับข้อ 4)</small></label>
-                        <input type="text" id="investorId2" readonly style="background:#e5e5e5;">
-                    </div>
-                    <button onclick="generateQuery7Alt()">สร้างคำสั่ง ELK (Investor ID)</button>
-                    <div id="output7alt" class="output" style="display:none;"></div>
                     
                     <h3 style="margin-top: 20px; color: #666;">กรอกผลลัพธ์ที่ได้จาก ELK:</h3>
                     <div class="input-group">
@@ -655,17 +649,10 @@
         
         function generateQuery7() {
             const requestId = dataStore.requestId || document.getElementById('requestId').value;
-            const query = `"${requestId}" and "docId"`;
+			const investorId = dataStore.investorId || document.getElementById('investorId').value;
+            const query = `"${investorId}" and "documentId" or "${requestId}" and "docId"`;
             const output = document.getElementById('output7');
             output.innerHTML = query + '<button class="copy-btn" onclick="copyToClipboard(\'output7\')">Copy</button>';
-            output.style.display = 'block';
-        }
-        
-        function generateQuery7Alt() {
-            const investorId = dataStore.investorId || document.getElementById('investorId').value;
-            const query = `"${investorId}" and "documentId"`;
-            const output = document.getElementById('output7alt');
-            output.innerHTML = query + '<button class="copy-btn" onclick="copyToClipboard(\'output7alt\')">Copy</button>';
             output.style.display = 'block';
         }
         
